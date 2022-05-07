@@ -6,6 +6,7 @@ import Header from "./pages/Shared/Header/Header";
 import Footer from "./pages/Shared/Footer/Footer";
 import Login from "./pages/Login/Login/Login";
 import Register from "./pages/Login/Register/Register";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (

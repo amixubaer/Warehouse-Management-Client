@@ -1,44 +1,108 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import SocialLogin from "../Login/SocialLogin/SocialLogin";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import auth from "../../../firebase.init";
+import { toast } from "react-toastify";
+import Loading from "../../Shared/Loading/Loading";
 
 const Register = () => {
+  const [terms, setTerms] = useState(false);
+  const [showPass, setShowPass] = useState(false);
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const confirmPassword = e.target.confirmPassword.value;
+    if (password === confirmPassword) {
+      createUserWithEmailAndPassword(email, password);
+    } else {
+      setErrorMessage("Password Does Not Matched");
+    }
+  };
+
+  if (error) {
+    setErrorMessage(error.message);
+  }
+  if (loading) {
+    return <Loading></Loading>;
+  }
+  if (user) {
+    navigate("/");
+  }
   return (
     <div className="d-flex justify-content-center align-items-center height-control">
       <div className="container">
         <div className="row">
           <div className="col-md-5 mx-auto">
-            <div>
+            <div className="mb-3">
               <h2>Please Register</h2>
-              <Form>
+              <Form onSubmit={handleRegister}>
                 <Form.Group className="mb-3" controlId="formBasicName">
                   <Form.Control type="text" placeholder="Enter Name" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Control type="email" placeholder="Enter email" />
+                <Form.Control
+                    name="email"
+                    type="email"
+                    placeholder="Enter email"
+                    required
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Control type="password" placeholder="Password" />
+                <Form.Control
+                    name="password"
+                    type={!showPass ? "password" : "text"}
+                    placeholder="Password"  required
+                  />
                 </Form.Group>
                 <Form.Group
                   className="mb-3"
                   controlId="formBasicConfirmPassword"
                 >
                   <Form.Control
-                    type="password"
-                    placeholder="Confirm Password"
+                   name="confirmPassword"
+                   type={!showPass ? "password" : "text"}
+                    placeholder="Confirm Password" required
+                  />
+                </Form.Group>
+                <p className="text-danger fw-bold">
+                  {errorMessage ? errorMessage : ""}
+                </p>
+                <Form.Group className="mb-3" controlId="formBasicShowPass">
+                  <Form.Check
+                    type="checkbox"
+                    label="Show Password"
+                    onClick={() => setShowPass(!showPass)}
                   />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
                   <Form.Check
                     type="checkbox"
                     label="Accept all terms & condition"
+                    onClick={() => setTerms(!terms)}
                   />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  disabled={!terms ? "true" : ""}
+                >
                   Register
                 </Button>
               </Form>
+              Already have an account?{" "}
+              <Link to="/login" className="btn btn-info">
+                Login
+              </Link>
             </div>
+            <SocialLogin></SocialLogin>
           </div>
         </div>
       </div>
