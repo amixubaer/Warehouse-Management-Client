@@ -42,9 +42,7 @@ const Login = () => {
     }
   };
 
-  if (resetError) {
-    toast(resetError.message);
-  }
+  
   if (user) {
     navigate("/");
   }
