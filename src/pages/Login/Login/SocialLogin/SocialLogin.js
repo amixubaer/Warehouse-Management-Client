@@ -1,19 +1,23 @@
 import React, { useState } from "react";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth";
+import { useLocation, useNavigate } from "react-router-dom";
 import auth from "../../../../firebase.init";
 import Loading from "../../../Shared/Loading/Loading";
 import "./SocialLogin.css";
 
 const SocialLogin = () => {
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  const [signInWithGoogle, googleUser, loading, error] =
+  useSignInWithGoogle(auth);
+  const [user] = useAuthState(auth);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
-  if (user) {
-    navigate("/");
-  }
   if (loading) {
     return <Loading></Loading>;
+  }
+  if (user) {
+    navigate(from, { replace: true });
   }
   return (
     <div className="text-center">

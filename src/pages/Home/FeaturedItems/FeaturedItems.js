@@ -1,6 +1,7 @@
 import React from "react";
 import useCars from "../../../hooks/useCars";
 import FeaturedCar from "../FeaturedCar/FeaturedCar";
+import { Link } from "react-router-dom";
 import "./FeaturedItems.css";
 
 const FeaturedItems = () => {
@@ -19,6 +20,16 @@ const FeaturedItems = () => {
           {inStock.slice(0, 6).map((car) => (
             <FeaturedCar key={car._id} car={car}></FeaturedCar>
           ))}
+        </div>
+        <div className="mb-5">
+          <h5 className="text-center">
+            <Link
+              className="btn btn-danger fw-bold p-3"
+              to="/manageInventories"
+            >
+              Manage Inventories
+            </Link>
+          </h5>
         </div>
         <hr />
       </div>
