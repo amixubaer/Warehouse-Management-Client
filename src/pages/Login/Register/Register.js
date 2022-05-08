@@ -14,6 +14,13 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  if (loading) {
+    return <Loading></Loading>;
+  }
+  if (user) {
+    navigate("/");
+  }
+
   const handleRegister = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -26,15 +33,7 @@ const Register = () => {
     }
   };
 
-  if (error) {
-    setErrorMessage(error.message);
-  }
-  if (loading) {
-    return <Loading></Loading>;
-  }
-  if (user) {
-    navigate("/");
-  }
+ 
   return (
     <div className="d-flex justify-content-center align-items-center height-control">
       <div className="container">
@@ -73,6 +72,8 @@ const Register = () => {
                 </Form.Group>
                 <p className="text-danger fw-bold">
                   {errorMessage ? errorMessage : ""}
+                  <br />
+                  {error ? error.message : ""}
                 </p>
                 <Form.Group className="mb-3" controlId="formBasicShowPass">
                   <Form.Check

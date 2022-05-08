@@ -23,9 +23,11 @@ const AddItem = () => {
       img: e.target.image.value,
     };
     axios.post("http://localhost:5000/cars", carObj).then((response) => {
-     // toast("successful");
+      toast("successful");
     });
-    navigate("/my-items");
+   
+    e.target.reset();
+
   };
   return (
     <div>
