@@ -14,8 +14,7 @@ const Footer = () => {
             </p>
           </div>
           <div className="col-md-6 gap-3 d-flex justify-content-center">
-            <Link to="/">Home</Link> |<Link to="/blog">Blog</Link> |
-            <Link to="/products">All Products</Link>
+            <Link to="/">Home</Link> |<Link to="/blog">Blog</Link> 
           </div>
         </div>
       </div>
