@@ -36,9 +36,13 @@ const Login = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
     await signInWithEmailAndPassword(email, password);
-    const { data } = await axios.post("http://localhost:5000/login", {
-      email,
-    });
+    const { data } = await axios.post(
+      "https://evening-falls-80277.herokuapp.com/login",
+      {
+        email,
+      }
+    );
+
     localStorage.setItem("accessToken", data);
     navigate(from, { replace: true });
   };

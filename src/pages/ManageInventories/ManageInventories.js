@@ -6,7 +6,7 @@ const ManageInventories = () => {
   const [cars, setCars] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/cars")
+    fetch("https://evening-falls-80277.herokuapp.com/cars")
       .then((res) => res.json())
       .then((data) => setCars(data));
   }, []);
@@ -14,7 +14,7 @@ const ManageInventories = () => {
   const handleDelete = id =>{
     const proceed = window.confirm('Are you sure?');
     if(proceed){
-        const url = `http://localhost:5000/carDelete/${id}`;
+        const url = `https://evening-falls-80277.herokuapp.com/carDelete/${id}`;
         fetch(url, {
             method: 'DELETE'
         })

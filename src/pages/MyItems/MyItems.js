@@ -10,27 +10,23 @@ const MyItems = () => {
   const [myCars, setMyCars] = useState([]);
 
   useEffect(() => {
-    const url = `http://localhost:5000/myCar?email=${user.email}`
+    const url = `https://evening-falls-80277.herokuapp.com/myCar?email=${user.email}`
 
-    try {
-      axios
-        .get(url, {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        })
-        .then((response) => {
-          setMyCars(response.data);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-}, []);
+    axios
+    .get(url, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
+    .then((response) => {
+      setMyCars(response.data);
+    });
+}, [user.email]);
 
   const deleteMyItem = (id) => {
     const proceed = window.confirm("Are You sure to DELETE?");
     if (proceed) {
-      const url = `http://localhost:5000/carDelete/${id}`;
+      const url = `https://evening-falls-80277.herokuapp.com/carDelete/${id}`;
       axios.post(url).then((response) => {
         if (response.data.deletedCount > 0) {
           const remaining = myCars.filter((myCar) => myCar._id !== id);

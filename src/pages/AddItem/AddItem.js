@@ -17,13 +17,13 @@ const AddItem = () => {
       name: e.target.name.value,
       supplier: e.target.supplier.value,
       email: user.email,
-      price: e.target.price.value,
-      quantity: e.target.quantity.value,
+      price: parseInt(e.target.price.value),
+      quantity: parseInt(e.target.quantity.value),
       description: e.target.description.value,
       img: e.target.image.value,
-      sold: e.target.sold.value,
+      sold: parseInt(e.target.sold.value),
     };
-    axios.post("http://localhost:5000/cars", carObj).then((response) => {
+    axios.post("https://evening-falls-80277.herokuapp.com/cars", carObj).then((response) => {
       toast("successful");
     });
    
