@@ -10,7 +10,7 @@ const Inventory = () => {
   const refQuantity = useRef("");
 
   useEffect(() => {
-    const url = `http://localhost:5000/car/${id}`;
+    const url = `http://localhost:5000/cars/${id}`;
     axios.post(url).then((response) => {
       setCar(response.data);
     });
