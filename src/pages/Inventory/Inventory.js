@@ -8,12 +8,10 @@ const Inventory = () => {
   const { id } = useParams();
   const [car, setCar] = useState({});
   const localCarId = parseInt(localStorage.getItem(id));
-  const localSoldId = parseInt(localStorage.getItem(`sold${id}`));
   const [newQuantity, setNewQuantity] = useState(localCarId);
-  const [sold, setSold] = useState(localSoldId);
 
   useEffect(() => {
-    const url = `https://evening-falls-80277.herokuapp.com/cars/${id}`;
+    const url = `https://evening-falls-80277.herokuapp.com/car/${id}`;
     axios.post(url).then((response) => {
       setCar(response.data);
     });
@@ -21,16 +19,16 @@ const Inventory = () => {
 
   const handleDeliver = (e) => {
     e.preventDefault();
-    setSold(sold + 1);
     if (newQuantity > 0) {
       setNewQuantity(newQuantity - 1);
       localStorage.setItem(car._id, newQuantity - 1);
-      localStorage.setItem(`sold${id}`, sold + 1);
     }
-    const updatedQuantity = { quantity: localCarId - 1, sold: sold + 1 };
+
+    const updatedQuantity = { quantity: localCarId - 1 };
+
     const url = `https://evening-falls-80277.herokuapp.com/car/${id}`;
     axios.put(url, updatedQuantity).then((response) => {
-      toast("Delivered the car successfully!");
+      console.log("Delivered the car successfully!");
     });
   };
 
@@ -47,23 +45,21 @@ const Inventory = () => {
       e.target.reset();
     });
   };
+
   return (
     <div>
-     
       <Container>
         <Row>
-        <div className="mx-auto">
+          <div className="mx-auto">
             <Row>
               <div className="col-md-5">
-                <h2 className="text-center my-5">
-                  Please update your items: {car.name}
-                </h2>
-                <img
-                  src={car.img}
-                  width="250"
-                  alt=""
-                  className="d-inline-block mx-auto"
-                />
+                <div className="text-center mb-3">
+                  <h2 className="text-center my-5">
+                    UPDATE YOUR CAR-{" "}
+                    <span className="text-danger">{`${car?.name?.toUpperCase()}`}</span>
+                  </h2>
+                  <img src={car.img} width="250" alt="" className="rounded" />
+                </div>
                 <Form onSubmit={handleDeliver}>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Model:</Form.Label>
@@ -101,6 +97,8 @@ const Inventory = () => {
                     <br />
                     <textarea
                       className="w-100"
+                      style={{ resize: "none" }}
+                      rows="4"
                       value={car.description}
                       readOnly
                       disabled
@@ -111,12 +109,8 @@ const Inventory = () => {
                     <Form.Control type="text" value={newQuantity} readOnly />
                   </Form.Group>
 
-                  <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Sold</Form.Label>
-                    <Form.Control type="text" value={sold} readOnly />
-                  </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                  {newQuantity ? (
+                    {newQuantity ? (
                       <Button
                         // onClick={handleDeliver}
                         variant="warning"
@@ -130,13 +124,11 @@ const Inventory = () => {
                       </button>
                     )}
                   </Form.Group>
-
-    
                 </Form>
               </div>
               <div className="col-md-2"></div>
               <div className="col-md-5">
-                <h2 className="text-center my-5">Re-stock your item</h2>
+                <h2 className="text-center my-5">Re-stock your items</h2>
                 {/* <img src={} alt="" /> */}
                 <Form onSubmit={handleStockCar}>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -144,18 +136,18 @@ const Inventory = () => {
                     <Form.Control type="text" name="stockQuantity" />
                   </Form.Group>
                   <Button variant="primary" type="submit">
-                    Stock
+                    Stock update
                   </Button>
                 </Form>
-                <div className="d-flex justify-content-center align-items-center">
+                <div className="d-flex justify-content-center align-items-center mt-3">
                   <Link className="btn btn-danger" to="/manageInventories">
                     Manage Inventories
                   </Link>
                 </div>
               </div>
             </Row>
-            </div>
-            </Row>
+          </div>
+        </Row>
       </Container>
     </div>
   );
