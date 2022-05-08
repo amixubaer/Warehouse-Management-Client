@@ -37,9 +37,13 @@ const Header = () => {
                   <Nav.Link as={Link} to="manageInventories">
                     Manage Items
                   </Nav.Link>
+                  <Nav.Link as={Link} to="contact">
+                Contact
+              </Nav.Link>
                 </>
               )}
             </Nav>
+            
             <Nav>
             {user ? (
                 <>
